@@ -39,3 +39,7 @@ html, body, #app {
 .ql-editor {
   min-height: 50vh;
 }
+/* 设置顶部进度条的颜色 */
+#nprogress .bar {
+  background: red !important;
+}

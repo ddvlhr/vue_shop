@@ -30,7 +30,7 @@
         :show-row-hover="false"
       >
         <!-- 是否有效 -->
-        <template slot="isOk" scope="scope">
+        <template slot="isOk" slot-scope="scope">
           <i
             v-if="!scope.row.cat_deleted"
             class="el-icon-success"
@@ -39,7 +39,7 @@
           <i v-else class="el-icon-error" style="color: red"></i>
         </template>
         <!-- 排序 -->
-        <template slot="order" scope="scope">
+        <template slot="order" slot-scope="scope">
           <el-tag v-if="scope.row.cat_level === 0" type="primary">一级</el-tag>
           <el-tag v-else-if="scope.row.cat_level === 1" type="success"
             >二级</el-tag
@@ -47,7 +47,7 @@
           <el-tag v-else type="warning">三级</el-tag>
         </template>
         <!-- 操作区域 -->
-        <template slot="opt" scope="scope">
+        <template slot="opt" slot-scope="scope">
           <el-button
             type="primary"
             size="mini"
@@ -55,7 +55,11 @@
             @click="showEditCateDialog(scope.row)"
             >编辑</el-button
           >
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click="removeCate(scope.row.cat_id)"
+          <el-button
+            type="danger"
+            size="mini"
+            icon="el-icon-delete"
+            @click="removeCate(scope.row.cat_id)"
             >删除</el-button
           >
         </template>
@@ -125,9 +129,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editCateDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editCate"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="editCate">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -263,7 +265,10 @@ export default {
     addCate() {
       this.$refs.addCateFormRef.validate(async valid => {
         if (valid) {
-          const { data: res } = await this.$http.post('categories', this.addCateForm)
+          const { data: res } = await this.$http.post(
+            'categories',
+            this.addCateForm
+          )
           if (res.meta.status !== 201) {
             return this.$message.error('添加分类失败')
           }
@@ -292,7 +297,11 @@ export default {
     async editCate() {
       this.$refs.editCateFormRef.validate(async valid => {
         if (valid) {
-          const { data: res } = await this.$http.put(`categories/${this.editCateForm.cat_id}`, { cat_name: this.editCateForm.cat_name })
+          const {
+            data: res
+          } = await this.$http.put(`categories/${this.editCateForm.cat_id}`, {
+            cat_name: this.editCateForm.cat_name
+          })
           if (res.meta.status !== 200) {
             return this.$message.error('更新分类失败')
           }
